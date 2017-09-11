@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+   	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="./recordBase.js"></script>
+</head>
+<body>
+
+	<span style="white-space:pre">        </span><audio controls autoplay></audio>  
+	<input type="button" value="开始录音" id="recording" />  
+	<input type="button" value="获取录音" id="retry"/>  
+	<input type="button" value="停止录音" id="stop" />  
+	<input type="button" value="播放录音" id="play" /> 
+	<input type="button" value="提交" id="submit">
+	<canvas id="pi" width="800" height="100"></canvas>
+	
+</body>
+<script>
+		/* 音频 */  
+		var recorder;  
+		var audio = document.querySelector('audio');  
+		//初始化
+		GintRecord.get(function (rec) {  
+			recorder = rec;  
+		},function(err){
+			//自定义error
+			alert(err)
+		},{
+			//输出采样数位 8, 16  
+			outputBits:8,
+			//输出采样率
+			outputRate:(44100 / 6),
+			//不需要可视化这个对象不添加
+			visualization:{
+				//可视化类型sinewave波形，frequencybars柱状
+				visualSetting:'frequencybars',
+				visualId:document.getElementById("pi")
+			}
+		})
+		$('#recording').click(function(){
+			recorder.start();  
+		})
+		$('#retry').click(function(){
+			var record = recorder.getBlob();  
+			debugger;  
+		});
+		$('#stop').click(function(){
+			recorder.stop();
+		})
+		$('#play').click(function(){
+			recorder.play(audio); 
+		});
+		$('#submit').click(function(){
+			recorder.upload(url,_data, function (state, e) {
+
+			});
+		})
+	</script>
+	</html>
